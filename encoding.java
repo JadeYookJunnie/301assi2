@@ -1,15 +1,15 @@
-class encoding{
-    public void static main(string args[]){
+public class encoding{
+    public static void main(String args[]){
 
     }
 
-    public void static encoder(){
+    public static void encoder(){
         // take in hexidecimal array
 
         //
     }
 
-    public void static binaryTree(){
+    public static void binaryTree(){
         //insert method
         //travers method 
     }
