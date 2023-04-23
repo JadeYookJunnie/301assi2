@@ -75,8 +75,13 @@ public class Trie {
             if (level < keys.length) {
                 // call ascii method
                 String let = hexToAscii(letter);
-                // minus the ascii value
-                index = let.charAt(0) - 'a';
+                // for capitals
+                if (let.charAt(0) < 'Z')
+                    index = let.charAt(0) - 'A';
+
+                else
+                    index = let.charAt(0) - 'a';
+
                 // index = Integer.parseInt(letter) - 61;
                 System.out.println("index" + index);
                 if (pCrawl.children[index] == null)
@@ -112,6 +117,8 @@ public class Trie {
             if (level < length) {
                 // call ascii method
                 String let = hexToAscii(letter);
+                // convert to lower case
+                let.toLowerCase();
                 index = let.charAt(0) - 'a';
                 // index = Integer.parseInt(letter) - 61;
                 if (pCrawl.children[index] == null)
