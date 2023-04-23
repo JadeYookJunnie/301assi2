@@ -1,7 +1,7 @@
 public class Trie {
-
+    static int level = 0;
     // 0-9 a-f 14
-    static final int SYMBOL_SIZE = 26;
+    static final int SYMBOL_SIZE = 14;
     // array of hex values
     public static String[] keys;
 
@@ -37,6 +37,10 @@ public class Trie {
 
         root = new TrieNode();
 
+        for (int i = 0; i < keys.length; i++) {
+            System.out.println("key" + keys[i]);
+        }
+
         // Construct trie
         // from here
         // System.out.println(keys.length);
@@ -53,18 +57,6 @@ public class Trie {
             System.out.println("the --- " + output[1]);
         else
             System.out.println("the --- " + output[0]);
-        //
-        // if(search("these") == true)
-        // System.out.println("these --- " + output[1]);
-        // else System.out.println("these --- " + output[0]);
-        //
-        // if(search("their") == true)
-        // System.out.println("their --- " + output[1]);
-        // else System.out.println("their --- " + output[0]);
-        //
-        // if(search("thaw") == true)
-        // System.out.println("thaw --- " + output[1]);
-        // else System.out.println("thaw --- " + output[0]);
 
     }
 
@@ -74,49 +66,61 @@ public class Trie {
     // just marks leaf node
 
     static void insert(String key) {
-        System.out.println("insert");
+        // System.out.println("insert");
 
         int index;
 
         TrieNode pCrawl = root;
-        System.out.println("we made it to for loop");
-        for (int level = 0; level < key.length(); level++) {
-            // get the 2 numbers
-            char one = key.charAt(level);
-            char two = key.charAt((level + 1));
-            // concatnate them into a single value
-            String letter = String.valueOf(one) + two;
-            System.out.println("letter" + letter);
-            // minus the ascii value
-            index = Integer.parseInt(letter) - 61;
-            System.out.println("index" + index);
-            if (pCrawl.children[index] == null)
-                pCrawl.children[index] = new TrieNode();
+        for (String letter : keys) {
+            if (level < keys.length) {
+                // call ascii method
+                String let = hexToAscii(letter);
+                // minus the ascii value
+                index = let.charAt(0) - 'a';
+                // index = Integer.parseInt(letter) - 61;
+                System.out.println("index" + index);
+                if (pCrawl.children[index] == null)
+                    pCrawl.children[index] = new TrieNode();
 
-            pCrawl = pCrawl.children[index];
+                pCrawl = pCrawl.children[index];
+                level++;
+            }
         }
 
         // mark last node as leaf
         pCrawl.isEndOfWord = true;
+        System.out.println("we are at the end of insert");
+    }
+
+    // converts hex to ascii and returns string
+    public static String hexToAscii(String hex) {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < hex.length(); i += 2) {
+            String str = hex.substring(i, i + 2);
+            output.append((char) Integer.parseInt(str, 16));
+        }
+        return output.toString();
     }
 
     // returns true if key presents in trie, else false
     static boolean search(String key) {
-        int level;
+
         int length = key.length();
         int index;
         TrieNode pCrawl = root;
-
-        for (level = 0; level < length; level++) {
-
-            char one = key.charAt(level);
-            char two = key.charAt((level + 1));
-            String letter = String.valueOf(one) + two;
-            index = Integer.parseInt(letter) - 61;
-            if (pCrawl.children[index] == null)
-                return false;
-            pCrawl = pCrawl.children[index];
+        for (String letter : keys) {
+            if (level < length) {
+                // call ascii method
+                String let = hexToAscii(letter);
+                index = let.charAt(0) - 'a';
+                // index = Integer.parseInt(letter) - 61;
+                if (pCrawl.children[index] == null)
+                    return false;
+                pCrawl = pCrawl.children[index];
+                level++;
+            }
         }
+
         return (pCrawl.isEndOfWord);
     }
     // Driver
