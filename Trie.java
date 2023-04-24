@@ -1,7 +1,7 @@
 public class Trie {
     static int level = 0;
     // 0-9 a-f 14
-    static final int SYMBOL_SIZE = 14;
+    static final int SYMBOL_SIZE = 15;
     // array of hex values
     public static String[] keys;
 
@@ -29,22 +29,11 @@ public class Trie {
 
     public static void main(String args[]) {
         System.out.println("main");
-        // Input keys (use only 'a' through 'z' and lower case)
-        // conversion error
-        // String keys[] = {"hello"};
-
         String output[] = { "Not present in trie", "Present in trie" };
-
         root = new TrieNode();
-
         for (int i = 0; i < keys.length; i++) {
             System.out.println("key" + keys[i]);
         }
-
-        // Construct trie
-        // from here
-        // System.out.println(keys.length);
-        // only called once
 
         System.out.println("this is key lengh" + keys.length);
         for (int i = 0; i < keys.length; i++) {
@@ -75,13 +64,15 @@ public class Trie {
             if (level < keys.length) {
                 // call ascii method
                 String let = hexToAscii(letter);
-                // for capitals
-                if (let.charAt(0) < 'Z')
+                if (let.charAt(0) == ' ') {
+                    System.out.println("this is a space");
+                    index = 14;
+                    //index = let.charAt(0) - 'A';
+                }else if (let.charAt(0) < 'Z' && let.charAt(0) != ' ') {
                     index = let.charAt(0) - 'A';
-
-                else
+                }else {
                     index = let.charAt(0) - 'a';
-
+                }
                 // index = Integer.parseInt(letter) - 61;
                 System.out.println("index" + index);
                 if (pCrawl.children[index] == null)
@@ -91,7 +82,6 @@ public class Trie {
                 level++;
             }
         }
-
         // mark last node as leaf
         pCrawl.isEndOfWord = true;
         System.out.println("we are at the end of insert");
@@ -127,9 +117,7 @@ public class Trie {
                 level++;
             }
         }
-
         return (pCrawl.isEndOfWord);
     }
     // Driver
-
 }
