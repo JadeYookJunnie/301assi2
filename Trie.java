@@ -1,7 +1,7 @@
 public class Trie {
     static int level = 0;
     // 0-9 a-f 14
-    static final int SYMBOL_SIZE = 15;
+    static final int SYMBOL_SIZE = 27;
     // array of hex values
     public static String[] keys;
 
@@ -23,8 +23,6 @@ public class Trie {
                 children[i] = null;
             }
         }
-
-        ;
     }
 
     public static void main(String args[]) {
@@ -37,15 +35,15 @@ public class Trie {
 
         System.out.println("this is key lengh" + keys.length);
         for (int i = 0; i < keys.length; i++) {
-            System.out.println(keys[i]);
+            // System.out.println(keys[i]);
             insert(keys[i]);
         }
 
         // Search for different keys
         if (search("68") == true)
-            System.out.println("the --- " + output[1]);
+            System.out.println("th --- " + output[1]);
         else
-            System.out.println("the --- " + output[0]);
+            System.out.println("th --- " + output[0]);
 
     }
 
@@ -57,34 +55,64 @@ public class Trie {
     static void insert(String key) {
         // System.out.println("insert");
 
-        int index;
-
+        int index = 0;
+        int numspaces = 0;
+        boolean InWord;
         TrieNode pCrawl = root;
-        for (String letter : keys) {
-            if (level < keys.length) {
-                // call ascii method
-                String let = hexToAscii(letter);
-                if (let.charAt(0) == ' ') {
-                    System.out.println("this is a space");
-                    index = 14;
-                    //index = let.charAt(0) - 'A';
-                }else if (let.charAt(0) < 'Z' && let.charAt(0) != ' ') {
-                    index = let.charAt(0) - 'A';
-                }else {
-                    index = let.charAt(0) - 'a';
+        int repeat = 1;
+        String totalIndex = null;
+        // for (String letter : keys) {
+        for (int i = 0; i < keys.length; i++) {
+            InWord = search(keys[i]);
+            if (InWord == true) {
+                String letterOne = keys[i];
+                // group letters togther
+                String letterTwo = hexToAscii(keys[i + 1]);
+                String let = hexToAscii(keys[i]);
+                while (repeat != 2) {
+                    if (let.charAt(0) == ' ') {
+                        break;
+                    } else if (let.charAt(0) < 'Z' && let.charAt(0) != ' ') {
+                        index = let.charAt(0) - 'A';
+                    } else {
+                        index = let.charAt(0) - 'a';
+                    }
+                    String num = String.valueOf(index);
+                    totalIndex = totalIndex + "," + num;
+                    System.out.println(totalIndex);
+                    repeat++;
                 }
-                // index = Integer.parseInt(letter) - 61;
-                System.out.println("index" + index);
-                if (pCrawl.children[index] == null)
-                    pCrawl.children[index] = new TrieNode();
+                repeat = 1;
+                InWord = false;
 
-                pCrawl = pCrawl.children[index];
-                level++;
+            } // add individual letters to trie
+            if (InWord == false) {
+                if (level < keys.length) {
+                    // call ascii method
+                    String let = hexToAscii(keys[i]);
+                    if (let.charAt(0) == ' ') {
+                        ++numspaces;
+                        System.out.println("this is a space" + numspaces);
+                        index = 26;
+                        // index = let.charAt(0) - 'A';
+                    } else if (let.charAt(0) < 'Z' && let.charAt(0) != ' ') {
+                        index = let.charAt(0) - 'A';
+                    } else {
+                        index = let.charAt(0) - 'a';
+                    }
+                    // index = Integer.parseInt(letter) - 61;
+                    System.out.println("index" + index);
+                    if (pCrawl.children[index] == null)
+                        pCrawl.children[index] = new TrieNode();
+
+                    pCrawl = pCrawl.children[index];
+                    level++;
+                }
             }
         }
         // mark last node as leaf
         pCrawl.isEndOfWord = true;
-        System.out.println("we are at the end of insert");
+
     }
 
     // converts hex to ascii and returns string
@@ -99,7 +127,6 @@ public class Trie {
 
     // returns true if key presents in trie, else false
     static boolean search(String key) {
-
         int length = key.length();
         int index;
         TrieNode pCrawl = root;
