@@ -25,94 +25,103 @@ public class Trie {
         }
     }
 
+    static boolean add = false;
+    static int added = 0;
+
     public static void main(String args[]) {
         System.out.println("main");
         String output[] = { "Not present in trie", "Present in trie" };
         root = new TrieNode();
-        for (int i = 0; i < keys.length; i++) {
-            System.out.println("key" + keys[i]);
-        }
 
         System.out.println("this is key lengh" + keys.length);
-        for (int i = 0; i < keys.length; i++) {
+
+        for (String key : keys) {
+            if (add == true)
+                break;
             // System.out.println(keys[i]);
-            insert(keys[i]);
+            insert(key);
         }
 
         // Search for different keys
         if (search("68") == true)
-            System.out.println("th --- " + output[1]);
+            System.out.println("hello --- " + output[1]);
         else
-            System.out.println("th --- " + output[0]);
+            System.out.println("hello --- " + output[0]);
 
     }
 
+    static int index = 0;
     static TrieNode root;
     // If not present, inserts key into trie
     // If the key is prefix of trie node,
     // just marks leaf node
+    static int numspaces = 0;
 
     static void insert(String key) {
-        // System.out.println("insert");
-
-        int index = 0;
-        int numspaces = 0;
         boolean InWord;
         TrieNode pCrawl = root;
-        int repeat = 1;
+        int repeat = 0;
         String totalIndex = null;
         // for (String letter : keys) {
         for (int i = 0; i < keys.length; i++) {
             InWord = search(keys[i]);
             if (InWord == true) {
-                String letterOne = keys[i];
+                if (keys[i + 1] == null) {
+                    break;
+                }
                 // group letters togther
                 String letterTwo = hexToAscii(keys[i + 1]);
                 String let = hexToAscii(keys[i]);
-                while (repeat != 2) {
-                    if (let.charAt(0) == ' ') {
-                        break;
-                    } else if (let.charAt(0) < 'Z' && let.charAt(0) != ' ') {
-                        index = let.charAt(0) - 'A';
-                    } else {
-                        index = let.charAt(0) - 'a';
-                    }
-                    String num = String.valueOf(index);
-                    totalIndex = totalIndex + "," + num;
-                    System.out.println(totalIndex);
-                    repeat++;
-                }
-                repeat = 1;
-                InWord = false;
+                // adding two indexs together
+                if (let.charAt(0) == ' ')
+                    break;
+
+                if (letterTwo.charAt(0) == ' ')
+                    break;
+
+                index = GenerateIndex(let);
+                String one = String.valueOf(index);
+                index = GenerateIndex(letterTwo);
+                String two = String.valueOf(index);
+                totalIndex = one + "," + two;
+                System.out.println(totalIndex);
 
             } // add individual letters to trie
             if (InWord == false) {
                 if (level < keys.length) {
                     // call ascii method
                     String let = hexToAscii(keys[i]);
-                    if (let.charAt(0) == ' ') {
-                        ++numspaces;
-                        System.out.println("this is a space" + numspaces);
-                        index = 26;
-                        // index = let.charAt(0) - 'A';
-                    } else if (let.charAt(0) < 'Z' && let.charAt(0) != ' ') {
-                        index = let.charAt(0) - 'A';
-                    } else {
-                        index = let.charAt(0) - 'a';
-                    }
-                    // index = Integer.parseInt(letter) - 61;
+                    // get index position
+                    index = GenerateIndex(let);
                     System.out.println("index" + index);
                     if (pCrawl.children[index] == null)
                         pCrawl.children[index] = new TrieNode();
-
                     pCrawl = pCrawl.children[index];
                     level++;
                 }
             }
+            InWord = false;
+            // mark last node as leaf
+            pCrawl.isEndOfWord = true;
         }
-        // mark last node as leaf
-        pCrawl.isEndOfWord = true;
+        System.out.println("this is level" + level);
+        if (level == keys.length) {
+            add = true;
+        }
+    }
 
+    // generates index
+    public static int GenerateIndex(String let) {
+        if (let.charAt(0) == ' ') {
+            ++numspaces;
+            index = 26;
+            // index = let.charAt(0) - 'A';
+        } else if (let.charAt(0) <= 'Z' && let.charAt(0) != ' ') {
+            index = let.charAt(0) - 'A';
+        } else {
+            index = let.charAt(0) - 'a';
+        }
+        return index;
     }
 
     // converts hex to ascii and returns string
@@ -127,24 +136,26 @@ public class Trie {
 
     // returns true if key presents in trie, else false
     static boolean search(String key) {
+
         int length = key.length();
         int index;
         TrieNode pCrawl = root;
-        for (String letter : keys) {
-            if (level < length) {
-                // call ascii method
-                String let = hexToAscii(letter);
-                // convert to lower case
-                let.toLowerCase();
-                index = let.charAt(0) - 'a';
-                // index = Integer.parseInt(letter) - 61;
-                if (pCrawl.children[index] == null)
-                    return false;
-                pCrawl = pCrawl.children[index];
-                level++;
+
+        // check for start
+        if (root == null) {
+            return false;
+        }
+        for (level = 0; level < length; level++) {
+            String asc = hexToAscii(key);
+            index = GenerateIndex(asc);
+            if (pCrawl.children[index] == null)
+                return false;
+
+            if (pCrawl.children[index] != null) {
+                System.out.println("we should not be here");
+                return true;
             }
         }
         return (pCrawl.isEndOfWord);
     }
-    // Driver
 }
