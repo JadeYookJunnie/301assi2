@@ -1,3 +1,5 @@
+import org.w3c.dom.Node;
+
 public class Trie {
     static int level = 0;
     // 0-9 a-f 14
@@ -16,6 +18,7 @@ public class Trie {
         // isEndOfWord is true if the node represents
         // end of a word
         boolean isEndOfWord;
+        int posistion;
 
         TrieNode() {
             isEndOfWord = false;
@@ -34,13 +37,7 @@ public class Trie {
         root = new TrieNode();
 
         System.out.println("this is key lengh" + keys.length);
-
-        for (String key : keys) {
-            if (add == true)
-                break;
-            // System.out.println(keys[i]);
-            insert(key);
-        }
+        insert(keys);
 
         // Search for different keys
         if (search("68") == true)
@@ -50,14 +47,14 @@ public class Trie {
 
     }
 
+    static int position = 0;
     static int index = 0;
     static TrieNode root;
     // If not present, inserts key into trie
     // If the key is prefix of trie node,
     // just marks leaf node
-  
 
-    static void insert(String key) {
+    static void insert(String[] key) {
         boolean InWord;
         TrieNode pCrawl = root;
         String totalIndex = null;
@@ -80,10 +77,23 @@ public class Trie {
 
                 index = GenerateIndex(let);
                 String one = String.valueOf(index);
+                int indexOne = index;
                 index = GenerateIndex(letterTwo);
                 String two = String.valueOf(index);
                 totalIndex = one + "," + two;
                 System.out.println(totalIndex);
+                // should be key nots keys i think
+                int length = keys.length;
+                for (level = 0; level < length; level++) {
+                    // String asc = hexToAscii(key);
+                    // index = GenerateIndex(asc);
+                    if (pCrawl.children[indexOne] != null) {
+                        pCrawl.children[indexOne] = new TrieNode();
+                        pCrawl = pCrawl.children[index];
+                        level++;
+                        System.out.println("we have inserted a child");
+                    }
+                }
 
             } // add individual letters to trie
             if (InWord == false) {
@@ -99,6 +109,8 @@ public class Trie {
                     level++;
                 }
             }
+            position++;
+            System.out.println("pos" + position);
             InWord = false;
             // mark last node as leaf
             pCrawl.isEndOfWord = true;
@@ -122,7 +134,8 @@ public class Trie {
         return index;
     }
 
-    // converts hex to ascii and returns string// replace with int character.digit //add phrase number to node
+    // converts hex to ascii and returns string// replace with int character.digit
+    // //add phrase number to node
     public static String hexToAscii(String hex) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < hex.length(); i += 2) {
@@ -149,10 +162,9 @@ public class Trie {
             if (pCrawl.children[index] == null)
                 return false;
 
-            if (pCrawl.children[index] != null) {
-                System.out.println("we should not be here");
+            if (pCrawl.children[index] != null)
                 return true;
-            }
+
         }
         return (pCrawl.isEndOfWord);
     }
