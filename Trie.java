@@ -3,7 +3,7 @@ import org.w3c.dom.Node;
 public class Trie {
     static int level = 0;
     // 0-9 a-f 14
-    static final int SYMBOL_SIZE = 27;
+    static final int SYMBOL_SIZE = 127;
     // array of hex values
     public static String[] keys;
 
@@ -115,12 +115,17 @@ public class Trie {
 
     // a = 61 6+1 = 7
     // p = 70 7+0 = 7
+    // public static int hexToNumeric(String hex) {
+    // int conv = 0;
+    // for (int y = 0; y < hex.length(); y += 1) {
+    // conv += Character.digit(hex.charAt(y), 16);
+    // }
+    // return conv;
+    // }
     public static int hexToNumeric(String hex) {
-        int conv = 0;
-        for (int y = 0; y < hex.length(); y += 1) {
-            conv += Character.digit(hex.charAt(y), 16);
-        }
-        return conv;
+        // int conv = 0;
+        int te = Integer.parseInt(hex, 16);
+        return te;
     }
 
     // returns true if key presents in trie, else false
