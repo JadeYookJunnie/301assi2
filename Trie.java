@@ -66,8 +66,8 @@ public class Trie {
                     break;
                 }
                 // group letters togther
-                String letterTwo = hexToAscii(keys[i + 1]);
-                String let = hexToAscii(keys[i]);
+                String letterTwo = hexToNumeric(keys[i + 1]);
+                String let = hexToNumeric(keys[i]);
                 // adding two indexs together
                 if (let.charAt(0) == ' ')
                     break;
@@ -99,7 +99,7 @@ public class Trie {
             if (InWord == false) {
                 if (level < keys.length) {
                     // call ascii method
-                    String let = hexToAscii(keys[i]);
+                    String let = hexToNumeric(keys[i]);
                     // get index position
                     index = GenerateIndex(let);
                     System.out.println("index" + index);
@@ -136,13 +136,13 @@ public class Trie {
 
     // converts hex to ascii and returns string// replace with int character.digit
     // //add phrase number to node
-    public static String hexToAscii(String hex) {
+    public static String hexToNumeric(String hex) {
         StringBuilder output = new StringBuilder();
+        int conv = 0;
         for (int i = 0; i < hex.length(); i += 2) {
-            String str = hex.substring(i, i + 2);
-            output.append((char) Integer.parseInt(str, 16));
+            conv += Character.digit(hex.charAt(i), 16);
         }
-        return output.toString();
+        return Integer.toString(conv);
     }
 
     // returns true if key presents in trie, else false
@@ -157,7 +157,7 @@ public class Trie {
             return false;
         }
         for (level = 0; level < length; level++) {
-            String asc = hexToAscii(key);
+            String asc = hexToNumeric(key);
             index = GenerateIndex(asc);
             if (pCrawl.children[index] == null)
                 return false;
