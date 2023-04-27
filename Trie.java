@@ -55,12 +55,11 @@ public class Trie {
     // If not present, inserts key into trie
     // If the key is prefix of trie node,
     // just marks leaf node
-    static int numspaces = 0;
+  
 
     static void insert(String key) {
         boolean InWord;
         TrieNode pCrawl = root;
-        int repeat = 0;
         String totalIndex = null;
         // for (String letter : keys) {
         for (int i = 0; i < keys.length; i++) {
@@ -113,7 +112,6 @@ public class Trie {
     // generates index
     public static int GenerateIndex(String let) {
         if (let.charAt(0) == ' ') {
-            ++numspaces;
             index = 26;
             // index = let.charAt(0) - 'A';
         } else if (let.charAt(0) <= 'Z' && let.charAt(0) != ' ') {
@@ -124,7 +122,7 @@ public class Trie {
         return index;
     }
 
-    // converts hex to ascii and returns string
+    // converts hex to ascii and returns string// replace with int character.digit //add phrase number to node
     public static String hexToAscii(String hex) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < hex.length(); i += 2) {
