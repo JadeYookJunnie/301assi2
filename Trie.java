@@ -66,27 +66,18 @@ public class Trie {
                     break;
                 }
                 // group letters togther
-                String letterTwo = hexToNumeric(keys[i + 1]);
-                String let = hexToNumeric(keys[i]);
-                // adding two indexs together
-                if (let.charAt(0) == ' ')
-                    break;
+                index = hexToNumeric(keys[i + 1]);
+                index = hexToNumeric(keys[i]);
 
-                if (letterTwo.charAt(0) == ' ')
-                    break;
-
-                index = GenerateIndex(let);
                 String one = String.valueOf(index);
                 int indexOne = index;
-                index = GenerateIndex(letterTwo);
+
                 String two = String.valueOf(index);
                 totalIndex = one + "," + two;
                 System.out.println(totalIndex);
                 // should be key nots keys i think
                 int length = keys.length;
                 for (level = 0; level < length; level++) {
-                    // String asc = hexToAscii(key);
-                    // index = GenerateIndex(asc);
                     if (pCrawl.children[indexOne] != null) {
                         pCrawl.children[indexOne] = new TrieNode();
                         pCrawl = pCrawl.children[index];
@@ -98,10 +89,9 @@ public class Trie {
             } // add individual letters to trie
             if (InWord == false) {
                 if (level < keys.length) {
-                    // call ascii method
-                    String let = hexToNumeric(keys[i]);
+                    // call hexto numeric method
+                    index = hexToNumeric(keys[i]);
                     // get index position
-                    index = GenerateIndex(let);
                     System.out.println("index" + index);
                     if (pCrawl.children[index] == null)
                         pCrawl.children[index] = new TrieNode();
@@ -121,28 +111,15 @@ public class Trie {
         }
     }
 
-    // generates index
-    public static int GenerateIndex(String let) {
-        if (let.charAt(0) == ' ') {
-            index = 26;
-            // index = let.charAt(0) - 'A';
-        } else if (let.charAt(0) <= 'Z' && let.charAt(0) != ' ') {
-            index = let.charAt(0) - 'A';
-        } else {
-            index = let.charAt(0) - 'a';
-        }
-        return index;
-    }
-
     // converts hex to ascii and returns string// replace with int character.digit
     // //add phrase number to node
-    public static String hexToNumeric(String hex) {
-        StringBuilder output = new StringBuilder();
+    public static int hexToNumeric(String hex) {
         int conv = 0;
-        for (int i = 0; i < hex.length(); i += 2) {
+        for (int i = 0; i < hex.length(); i += 1) {
             conv += Character.digit(hex.charAt(i), 16);
         }
-        return Integer.toString(conv);
+        System.out.println(conv + "this is cov");
+        return conv;
     }
 
     // returns true if key presents in trie, else false
@@ -157,14 +134,12 @@ public class Trie {
             return false;
         }
         for (level = 0; level < length; level++) {
-            String asc = hexToNumeric(key);
-            index = GenerateIndex(asc);
+            index = hexToNumeric(key);
             if (pCrawl.children[index] == null)
                 return false;
 
             if (pCrawl.children[index] != null)
                 return true;
-
         }
         return (pCrawl.isEndOfWord);
     }
