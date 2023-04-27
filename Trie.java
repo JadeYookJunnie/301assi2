@@ -32,7 +32,6 @@ public class Trie {
     static int added = 0;
 
     public static void main(String args[]) {
-        System.out.println("main");
         String output[] = { "Not present in trie", "Present in trie" };
         root = new TrieNode();
 
@@ -62,6 +61,7 @@ public class Trie {
         for (int i = 0; i < keys.length; i++) {
             InWord = search(keys[i]);
             if (InWord == true) {
+                System.out.println("hello world");
                 if (keys[i + 1] == null) {
                     break;
                 }
@@ -91,8 +91,7 @@ public class Trie {
                 if (level < keys.length) {
                     // call hexto numeric method
                     index = hexToNumeric(keys[i]);
-                    // get index position
-                    System.out.println("index" + index);
+                    System.out.println("this is index: " + index);
                     if (pCrawl.children[index] == null)
                         pCrawl.children[index] = new TrieNode();
                     pCrawl = pCrawl.children[index];
@@ -100,7 +99,7 @@ public class Trie {
                 }
             }
             position++;
-            System.out.println("pos" + position);
+            System.out.println("pos: " + position);
             InWord = false;
             // mark last node as leaf
             pCrawl.isEndOfWord = true;
@@ -113,12 +112,14 @@ public class Trie {
 
     // converts hex to ascii and returns string// replace with int character.digit
     // //add phrase number to node
+
+    // a = 61 6+1 = 7
+    // p = 70 7+0 = 7
     public static int hexToNumeric(String hex) {
         int conv = 0;
-        for (int i = 0; i < hex.length(); i += 1) {
-            conv += Character.digit(hex.charAt(i), 16);
+        for (int y = 0; y < hex.length(); y += 1) {
+            conv += Character.digit(hex.charAt(y), 16);
         }
-        System.out.println(conv + "this is cov");
         return conv;
     }
 
