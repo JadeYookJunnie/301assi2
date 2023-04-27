@@ -77,10 +77,13 @@ public class Trie {
                 System.out.println(totalIndex);
                 // should be key nots keys i think
                 int length = keys.length;
-                for (level = 0; level < length; level++) {
+                for (level = 0; level < length; level++) {// else move down
                     if (pCrawl.children[indexOne] != null) {
-                        pCrawl.children[indexOne] = new TrieNode();
-                        pCrawl = pCrawl.children[index];
+                        // add one to level
+                        // if(null add character)
+
+                        // pCrawl.children[indexOne] = new TrieNode();
+                        // pCrawl = pCrawl.children[index];
                         level++;
                         System.out.println("we have inserted a child");
                     }
