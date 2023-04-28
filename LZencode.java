@@ -10,7 +10,8 @@ public class LZencode {
 
         try{
             int pointer = 1;
-            byte[] argument = args[0].getBytes();
+            String test = "aabc";
+            byte[] argument = test.getBytes();
             InputStream isr = new ByteArrayInputStream(argument);
             byte[] byteArray = isr.readAllBytes();
             translator(byteArray);

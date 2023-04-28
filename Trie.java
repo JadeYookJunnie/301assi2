@@ -31,6 +31,20 @@ public class Trie {
     static boolean add = false;
     static int added = 0;
 
+    public static void test() {
+        TrieNode node = root;
+        for(String s: keys) {
+            if(node.children.includes(s)) {
+                //go into child of curchar
+            }
+            else {
+                
+            }
+        }
+
+    }
+
+
     public static void main(String args[]) {
         String output[] = { "Not present in trie", "Present in trie" };
         root = new TrieNode();
@@ -39,10 +53,17 @@ public class Trie {
         insert(keys);
 
         // Search for different keys
-        if (search("68") == true)
-            System.out.println("hello --- " + output[1]);
-        else
-            System.out.println("hello --- " + output[0]);
+        for(String s: keys) {
+            System.out.println(s);
+            if (search(s) == true)
+                System.out.println(s + " "+ output[1]);
+            else
+                System.out.println(s + " "+ output[0]);
+        }
+//        if (search("68") == true)
+//            System.out.println("hello --- " + output[1]);
+//        else
+//            System.out.println("hello --- " + output[0]);
 
     }
 
@@ -59,34 +80,54 @@ public class Trie {
         String totalIndex = null;
         // for (String letter : keys) {
         for (int i = 0; i < keys.length; i++) {
-            InWord = search(keys[i]);
+            //InWord = search(keys[i]);
+            if(root.children[i] == index) {
+                InWord = false;
+            } else {
+                level++;
+                index = hexToNumeric(key);
+                if (pCrawl.children[index] == null)
+                    InWord = false;
+
+                if (pCrawl.children[index] != null)
+                    InWord = true;
+            }
+
+            System.out.println(InWord);
             if (InWord == true) {
-                System.out.println("hello world");
-                if (keys[i + 1] == null) {
-                    break;
-                }
-                // group letters togther
-                index = hexToNumeric(keys[i + 1]);
-                index = hexToNumeric(keys[i]);
-
-                String one = String.valueOf(index);
-                int indexOne = index;
-
-                String two = String.valueOf(index);
-                totalIndex = one + "," + two;
-                System.out.println(totalIndex);
-                // should be key nots keys i think
-                int length = keys.length;
-                for (level = 0; level < length; level++) {// else move down
-                    if (pCrawl.children[indexOne] != null) {
-                        // add one to level
-                        // if(null add character)
-
-                        // pCrawl.children[indexOne] = new TrieNode();
-                        // pCrawl = pCrawl.children[index];
-                        level++;
-                        System.out.println("we have inserted a child");
+                break;
+//                System.out.println("hello world");
+//                if (keys[i + 1] == null) {
+//                    break;
+//                }
+//                // group letters togther
+//                index = hexToNumeric(keys[i + 1]);
+//                index = hexToNumeric(keys[i]);
+//
+//                String one = String.valueOf(index);
+//                int indexOne = index;
+//
+//                String two = String.valueOf(index);
+//                totalIndex = one + "," + two;
+//                System.out.println(totalIndex);
+//                // should be key nots keys i think
+//                int length = keys.length;
+//                for (level = 0; level < length; level++) {// else move down
+//                    if (pCrawl.children[indexOne] != null) {
+//                        // add one to level
+//
+//                        // if(null add character)
+////                        while(pCrawl.children[index] != null) {
+////                            level++;
+////                        }
+//
+//
+//                        // pCrawl.children[indexOne] = new TrieNode();
+//                        // pCrawl = pCrawl.children[index];
+//                        level++;
+//                        System.out.println("we have inserted a child");
                     }
+                    pCrawl.children[index] = new TrieNode();
                 }
 
             } // add individual letters to trie
