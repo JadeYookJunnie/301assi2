@@ -18,7 +18,8 @@ public class Trie {
         // isEndOfWord is true if the node represents
         // end of a word
         boolean isEndOfWord;
-        int posistion;
+        int phrase;
+        String val;
 
         TrieNode() {
             isEndOfWord = false;
@@ -34,12 +35,12 @@ public class Trie {
     public static void test() {
         TrieNode node = root;
         for(String s: keys) {
-            if(node.children.includes(s)) {
-                //go into child of curchar
-            }
-            else {
-                
-            }
+//            if(node.children.includes(s)) {
+//                //go into child of curchar
+//            }
+//            else {
+//
+//            }
         }
 
     }
@@ -80,30 +81,34 @@ public class Trie {
         String totalIndex = null;
         // for (String letter : keys) {
         for (int i = 0; i < keys.length; i++) {
-            //InWord = search(keys[i]);
-            if(root.children[i] == index) {
-                InWord = false;
-            } else {
-                level++;
-                index = hexToNumeric(key);
-                if (pCrawl.children[index] == null)
-                    InWord = false;
+            InWord = search(keys[i]);
+//            if(root.children[i] == null) {
+//                InWord = false;
+//            } else {
+//                level++;
+//                index = hexToNumeric(keys[i]);
+//                if (pCrawl.children[index] == null)
+//                    InWord = false;
+//
+//                if (pCrawl.children[index] != null)
+//                    InWord = true;
+//            }
 
-                if (pCrawl.children[index] != null)
-                    InWord = true;
-            }
-
-            System.out.println(InWord);
+            System.out.println("in word"+InWord);
             if (InWord == true) {
-                break;
-//                System.out.println("hello world");
+                //cannot break here
+                //break;
+                System.out.println("hello world");
 //                if (keys[i + 1] == null) {
 //                    break;
 //                }
-//                // group letters togther
-//                index = hexToNumeric(keys[i + 1]);
-//                index = hexToNumeric(keys[i]);
-//
+                // group letters togther
+                //index = hexToNumeric(keys[i + 1]);
+                //set current to this key's node
+                index = hexToNumeric(keys[i]);
+                pCrawl = pCrawl.children[index];
+
+
 //                String one = String.valueOf(index);
 //                int indexOne = index;
 //
@@ -125,26 +130,40 @@ public class Trie {
 //                        // pCrawl.children[indexOne] = new TrieNode();
 //                        // pCrawl = pCrawl.children[index];
 //                        level++;
-//                        System.out.println("we have inserted a child");
-                    }
-                    pCrawl.children[index] = new TrieNode();
-                }
+//                        //System.out.println("we have inserted a child");
+//                    }
+//                    pCrawl.children[index] = new TrieNode();
+//                }
 
             } // add individual letters to trie
             if (InWord == false) {
-                if (level < keys.length) {
-                    // call hexto numeric method
-                    index = hexToNumeric(keys[i]);
-                    System.out.println("this is index: " + index);
-                    if (pCrawl.children[index] == null)
-                        pCrawl.children[index] = new TrieNode();
-                    pCrawl = pCrawl.children[index];
-                    level++;
-                }
+//                int prevIndex = 0;
+//                int tryPrev = hexToNumeric(keys[i-1]);
+//                if(tryPrev > 0) {
+//                    prevIndex = tryPrev;
+//                }
+                index = hexToNumeric(keys[i]);
+                pCrawl.children[index] = new TrieNode();
+                pCrawl.children[index].phrase = position;
+                pCrawl.children[index].val = keys[i];
+                System.out.println("output: "+pCrawl.phrase + " "+keys[i]);
+                position++;
+                pCrawl = root;
+                System.out.println(pCrawl.val);
+                level++;
+//                if (level < keys.length) {
+//                    // call hexto numeric method
+//                    index = hexToNumeric(keys[i]);
+//                    System.out.println("this is index: " + index);
+//                    if (pCrawl.children[index] == null)
+//                        pCrawl.children[index] = new TrieNode();
+//                    pCrawl = pCrawl.children[index];
+//                    level++;
+//                }
             }
-            position++;
+            //position++;
             System.out.println("pos: " + position);
-            InWord = false;
+            //InWord = false;
             // mark last node as leaf
             pCrawl.isEndOfWord = true;
         }
@@ -180,17 +199,24 @@ public class Trie {
         TrieNode pCrawl = root;
 
         // check for start
-        if (root == null) {
-            return false;
-        }
+//        if (root == null) {
+//            return false;
+//        }
+//        for(TrieNode child: root.children) {
+//            for(TrieNode leaf: child.children) {
+//                System.out.println(leaf);
+//            }
+//        }
         for (level = 0; level < length; level++) {
+            //System.out.println("keyl"+key+length);
             index = hexToNumeric(key);
-            if (pCrawl.children[index] == null)
-                return false;
-
             if (pCrawl.children[index] != null)
                 return true;
+
+//            else
+//                return false;
         }
-        return (pCrawl.isEndOfWord);
+        return false;
+        //return (pCrawl.isEndOfWord);
     }
 }
