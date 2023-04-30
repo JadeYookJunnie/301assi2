@@ -1,7 +1,11 @@
 import org.w3c.dom.Node;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Trie {
     static int level = 0;
+    public static List<Integer> phraseNumber = new ArrayList<Integer>();
+    public static List<String> value = new ArrayList<String>();
     // 0-9 a-f 14
     static final int SYMBOL_SIZE = 127;
     // array of hex values
@@ -65,22 +69,32 @@ public class Trie {
             InWord = search(keys[i]);
 
             if (InWord == true) {
-                // index = hex to new meic
-                // position = phrase
-                // order
+
+                // search for pears
+
+                // index = hexToNumeric(key);
+                // int phase;
+                // need away to loop through phrases
+                // while(phase != 0){
+                // pCrawl.children[index].val = keys[i];
+                // pCrawl.children[index].order = order;
+                // }
 
                 // get previndex position of current key
                 index = hexToNumeric(keys[i]);
                 int prevOrder = pCrawl.children[index].order;
                 // pCrawl.isEndOfWord = true;
                 i++;
-                index = hexToNumeric(keys[i]);
+                index = hexToNumeric(keys[i]);// crashes here 
                 pCrawl.children[index] = new TrieNode();
                 pCrawl.children[index].phrase = prevOrder;
                 // System.out.println(pCrawl.children[index].phrase);
                 pCrawl.children[index].val = keys[i];
                 pCrawl.children[index].order = order;
                 System.out.println("output: " + pCrawl.children[index].phrase + " " + keys[i]);
+                int phase = pCrawl.children[index].phrase;
+                phraseNumber.add(phase);
+                value.add(keys[i]);
                 // reset
                 pCrawl = root;
 
@@ -91,6 +105,11 @@ public class Trie {
                 pCrawl.children[index].phrase = 0;// positon
                 pCrawl.children[index].val = keys[i];
                 pCrawl.children[index].order = order;
+                // adding to list
+                int phase = pCrawl.children[index].phrase;
+                phraseNumber.add(phase);
+                value.add(keys[i]);
+
                 // need to get parent phrase
                 System.out.println("output: " + pCrawl.children[index].phrase + " " + keys[i]);
                 position++;// might need to remove
@@ -98,6 +117,7 @@ public class Trie {
                 level++;
 
             }
+            
             order++;
             pCrawl.isEndOfWord = true;
         }
@@ -105,6 +125,9 @@ public class Trie {
         if (level == keys.length) {
             add = true;
         }
+        System.out.println("values" + value);
+        System.out.println("phrases" + phraseNumber);
+
     }
 
     public static int hexToNumeric(String hex) {
