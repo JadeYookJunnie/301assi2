@@ -45,13 +45,13 @@ public class Trie {
         insert(keys);
 
         // Search for different keys
-        for (String s : keys) {
-            // System.out.println(s);
-            if (search(s) == true)
-                System.out.println(s + " " + output[1]);
-            else
-                System.out.println(s + " " + output[0]);
-        }
+        // for (String s : keys) {
+        // // System.out.println(s);
+        // if (search(s) == true)
+        // System.out.println(s + " " + output[1]);
+        // else
+        // System.out.println(s + " " + output[0]);
+        // }
 
     }
 
@@ -66,9 +66,10 @@ public class Trie {
 
         // for (String letter : keys) {
         for (int i = 0; i < keys.length; i++) {
-            InWord = search(keys[i]);
+            InWord = search(keys[i], pCrawl);
 
             if (InWord == true) {
+                System.out.println("hello world");
 
                 // search for pears
 
@@ -81,17 +82,22 @@ public class Trie {
                 // }
 
                 // get previndex position of current key
-                index = hexToNumeric(keys[i]);
-                int prevOrder = pCrawl.children[index].order;
-                // pCrawl.isEndOfWord = true;
-                i++;
-                index = hexToNumeric(keys[i]);// crashes here 
-                pCrawl.children[index] = new TrieNode();
-                pCrawl.children[index].phrase = prevOrder;
-                // System.out.println(pCrawl.children[index].phrase);
+                // index = hexToNumeric(keys[i]);
+                // int prevOrder = pCrawl.children[index].order;
+                // // pCrawl.isEndOfWord = true;
+                // i++;
+                // index = hexToNumeric(keys[i]);// crashes here
+                // pCrawl.children[index] = new TrieNode();
+                // pCrawl.children[index].phrase = prevOrder;
+                // // System.out.println(pCrawl.children[index].phrase);
+
+                // for (TrieNode tn : ) {
+
+                // }
                 pCrawl.children[index].val = keys[i];
                 pCrawl.children[index].order = order;
-                System.out.println("output: " + pCrawl.children[index].phrase + " " + keys[i]);
+                // System.out.println("output: " + pCrawl.children[index].phrase + " " +
+                // keys[i]);
                 int phase = pCrawl.children[index].phrase;
                 phraseNumber.add(phase);
                 value.add(keys[i]);
@@ -102,7 +108,7 @@ public class Trie {
             if (InWord == false) {
                 index = hexToNumeric(keys[i]);
                 pCrawl.children[index] = new TrieNode();
-                pCrawl.children[index].phrase = 0;// positon
+                pCrawl.children[index].phrase = position;
                 pCrawl.children[index].val = keys[i];
                 pCrawl.children[index].order = order;
                 // adding to list
@@ -117,7 +123,7 @@ public class Trie {
                 level++;
 
             }
-            
+
             order++;
             pCrawl.isEndOfWord = true;
         }
@@ -138,14 +144,19 @@ public class Trie {
 
     // returns true if key presents in trie, else false
     // change
-    static boolean search(String key) {
+    static boolean search(String key, TrieNode pcrawl) {
+
         int length = key.length();
         int index;
-        TrieNode pCrawl = root;
+
+        // TrieNode pCrawl = root;
         index = hexToNumeric(key);
-        // need away to loop through phrases
-        if (pCrawl.children[index] != null)
-            return true;
+        for (TrieNode N : pcrawl.children) {
+            System.out.println("we faild");
+            if (N.val == key)
+                return true;
+        }
+
         return false;
 
     }

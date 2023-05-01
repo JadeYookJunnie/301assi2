@@ -10,7 +10,9 @@ public class LZencode {
 
         try{
             int pointer = 1;
-            String test = "aabc";
+            //String test = "aabc";
+            String test = "ababaaabb";
+            //String test = "abracadabra";
             byte[] argument = test.getBytes();
             InputStream isr = new ByteArrayInputStream(argument);
             byte[] byteArray = isr.readAllBytes();
