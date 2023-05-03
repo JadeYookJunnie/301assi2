@@ -1,4 +1,8 @@
 import org.w3c.dom.Node;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,13 +52,13 @@ public class Trie {
         insert(keys);
 
         // Search for different keys
-        for (String s : keys) {
-            // System.out.println(s);
-            if (search(s) == true)
-                System.out.println(s + " " + output[1]);
-            else
-                System.out.println(s + " " + output[0]);
-        }
+//        for (String s : keys) {
+//            // System.out.println(s);
+//            if (search(s) == true)
+//                System.out.println(s + " " + output[1]);
+//            else
+//                System.out.println(s + " " + output[0]);
+//        }
 
     }
 
@@ -63,6 +67,7 @@ public class Trie {
     static int order = 1;
 
     static void insert(String[] key) {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
         boolean InWord;
         TrieNode pCrawl = root;
 
@@ -95,7 +100,14 @@ public class Trie {
                         phraseNumber.add(phase);
                         //convert to bits
                         value.add(hexToBits(keys[i]));
-                        System.out.println("output: " + pCrawl.phrase + " " + keys[i]);
+                        String toWrite = pCrawl.phrase + "," + keys[i];;
+                        try {
+                            writer.write(toWrite);
+                            writer.newLine();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        //System.out.println("output: " + pCrawl.phrase + " " + keys[i]);
                         // pCrawl = root;// maybe
                         order++;
                         break;
@@ -144,11 +156,18 @@ public class Trie {
                 phraseNumber.add(phase);
                 //convert to bits
                 value.add(hexToBits(keys[i]));
-                System.out.println(value);
-                System.out.println(phraseNumber);
+                //System.out.println(value);
+                //System.out.println(phraseNumber);
 
                 // need to get parent phrase
-                System.out.println("output: " + pCrawl.children[index].phrase + " " + keys[i]);
+                String toWrite = pCrawl.children[index].phrase + "," + keys[i];
+                try {
+                    writer.write(toWrite);
+                    writer.newLine();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                //System.out.println("output: " + pCrawl.children[index].phrase + " " + keys[i]);
                 // pCrawl = pCrawl.children[index];
                 pCrawl = root;
                 order++;
