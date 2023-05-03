@@ -40,14 +40,8 @@ public class LZdecoding {
 
         // main loop
         for (int current = 0; current < phraseNumber.size(); current++) {
-            // System.out.println(phraseNumber.get(current));
-            // Add single value with phrase number of zero
             if (phraseNumber.get(current) == 0) {
-                // System.out.println("this is phrase number: " + phraseNumber.get(current) + "
-                // this is the value: "
-                // + value.get(current));
                 output.add(value.get(current));
-                // System.out.println(output);
             }
 
             // add values that are connected together
@@ -57,9 +51,7 @@ public class LZdecoding {
                 int x = 0;
                 phraselocation = phraseNumber.get(current);
                 path.add(phraselocation);
-
                 // be able to add more to path
-
                 while (phraselocation != 0) {
                     int num = path.get(x);
                     // System.out.println("this is num" + num);
@@ -71,13 +63,7 @@ public class LZdecoding {
                         break;
                     }
                     path.add(phraselocation);
-                    // System.out.println("this is path" + path);
                     x++;
-                    // if (phraselocation == 0) {// MIGHT NEED THIS
-                    // output.add(value.get(phraselocation));
-                    // break;
-                    // }
-
                 }
 
                 for (int i = path.size() - 2; i >= 0; i--) {
