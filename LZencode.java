@@ -41,6 +41,7 @@ public class LZencode {
 
     // byte to hex translator
     public static void translator(byte[] bytes) {
+        System.out.println("start");
         List<String> translated = new ArrayList<String>();
         for (byte b : bytes) {
             String st = String.format("%02X", b);

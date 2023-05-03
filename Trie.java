@@ -1,5 +1,5 @@
 import org.w3c.dom.Node;
-
+import java.util.*;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -17,6 +17,7 @@ public class Trie {
     static final int SYMBOL_SIZE = 256;
     // array of hex values
     public static String[] keys;
+    public static List<String> output = new ArrayList<>();
 
     public Trie(String[] _input) {
         keys = _input;
@@ -45,19 +46,31 @@ public class Trie {
     static int added = 0;
 
     public static void main(String args[]) {
-        String output[] = { "Not present in trie", "Present in trie" };
+        System.out.println("hello");
+        String out[] = { "Not present in trie", "Present in trie" };
         root = new TrieNode();
 
         // System.out.println("this is key lengh" + keys.length);
         insert(keys);
+        System.out.println("back");
+        System.out.println(output.size());
+        //not returning
+
+        String _out[] = output.toArray(new String[output.size()]);
+        for(int i =0; i <= phraseNumber.size(); i++) {
+            String myvariable  =  phraseNumber.get(i) + "," + value.get(index);
+            System.out.println(myvariable);
+            output.add(myvariable);
+        }
+        LZdecoding decoder = new LZdecoding(_out);
 
         // Search for different keys
 //        for (String s : keys) {
 //            // System.out.println(s);
 //            if (search(s) == true)
-//                System.out.println(s + " " + output[1]);
+//                System.out.println(s + " " + out[1]);
 //            else
-//                System.out.println(s + " " + output[0]);
+//                System.out.println(s + " " + out[0]);
 //        }
 
     }
@@ -100,14 +113,16 @@ public class Trie {
                         phraseNumber.add(phase);
                         //convert to bits
                         value.add(hexToBits(keys[i]));
-                        String toWrite = pCrawl.phrase + "," + keys[i];;
-                        try {
-                            writer.write(toWrite);
-                            writer.newLine();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        //System.out.println("output: " + pCrawl.phrase + " " + keys[i]);
+                        String toWrite = pCrawl.phrase + "," + keys[i];
+                        System.out.println("writing"+toWrite);
+                        output.add(toWrite);
+//                        try {
+//                            writer.write(toWrite);
+//                            writer.newLine();
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
+                        System.out.println("output: " + pCrawl.phrase + " " + keys[i]);
                         // pCrawl = root;// maybe
                         order++;
                         break;
@@ -121,28 +136,6 @@ public class Trie {
                 }
                 // reset
                 pCrawl = root;
-
-                ////////////////////////////////////////////////
-
-                // //get previndex position of current key
-                // index = hexToNumeric(keys[i]);
-                // int prevOrder = pCrawl.children[index].order;
-                // // pCrawl.isEndOfWord = true;
-                // i++;
-                // index = hexToNumeric(keys[i]);// crashes here
-                // pCrawl.children[index] = new TrieNode();
-                // pCrawl.children[index].phrase = prevOrder;
-                // // System.out.println(pCrawl.children[index].phrase);
-                // pCrawl.children[index].val = keys[i];
-                // pCrawl.children[index].order = order;
-                // System.out.println("output: " + pCrawl.children[index].phrase + " " +
-                // keys[i]);
-                // int phase = pCrawl.children[index].phrase;
-                // phraseNumber.add(phase);
-                // value.add(keys[i]);
-                // // reset
-                // pCrawl = root;
-                // ////position++;
 
             }
             if (InWord == false) {
@@ -160,14 +153,16 @@ public class Trie {
                 //System.out.println(phraseNumber);
 
                 // need to get parent phrase
-                String toWrite = pCrawl.children[index].phrase + "," + keys[i];
-                try {
-                    writer.write(toWrite);
-                    writer.newLine();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                //System.out.println("output: " + pCrawl.children[index].phrase + " " + keys[i]);
+                int outPhr = pCrawl.children[index].phrase;
+                String toWrite = phase + ","+value;
+                output.add(toWrite);
+//                try {
+//                    writer.write(toWrite);
+//                    writer.newLine();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+                System.out.println("output: " + pCrawl.children[index].phrase + " " + keys[i]);
                 // pCrawl = pCrawl.children[index];
                 pCrawl = root;
                 order++;
@@ -190,20 +185,6 @@ public class Trie {
         return te;
     }
 
-    // static boolean search(String key) {
-    // int length = key.length();
-    // int index;
-    // TrieNode pCrawl = root;
-
-    // for(level = 0; level < length; level++){
-    // index = hexToNumeric(key);
-    // if (pCrawl.children[index] == null){
-    // return false;
-    // }
-    // pCrawl = pCrawl.children[index];
-    // }
-    // return true;
-    // }
 
     static boolean search(String key) {
         int length = key.length();

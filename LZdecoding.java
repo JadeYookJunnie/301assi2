@@ -1,12 +1,21 @@
 import java.io.*;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LZdecoding {
 
+
     public static int index = 1;
     public static List<Integer> phraseNumber = new ArrayList<Integer>();
     public static List<String> value = new ArrayList<String>();
+    public static String[] input;
+    public LZdecoding(String[] _input) {
+        input = _input;
+        System.out.println("hello");
+        main(null);
+
+    }
 
     public static void main(String[] args) {
 
@@ -32,7 +41,7 @@ public class LZdecoding {
 
         String testarray[] = testList.toArray(new String[testList.size()]);
         //System.out.println(testList.get(0));
-        enterdata(testarray);
+        enterdata(input);
 
     }
 
@@ -59,6 +68,7 @@ public class LZdecoding {
         ArrayList<String> output = new ArrayList<String>();
         // current = current location of decode
         int phraselocation = 1;
+
 
         // main loop
         for (int current = 0; current < phraseNumber.size(); current++) {
