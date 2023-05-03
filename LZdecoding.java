@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LZdecoding {
+
     public static int index = 1;
     public static List<Integer> phraseNumber = new ArrayList<Integer>();
     public static List<String> value = new ArrayList<String>();
@@ -11,14 +12,35 @@ public class LZdecoding {
 
         // String[] testarray = { "0,a", "1,b", "0,b", "2,b" };
         // String[] testarray = { "0,a", "0,b", "0,r", "1,c", "1,d", "1,b", "3,a" };
-        String[] testarray = { "0,a", "0,b", "1,b", "1,a", "3,b" };
+        //String[] testarray = { "0,a", "0,b", "1,b", "1,a", "3,b" };
+        System.out.println("check");
+        LZencode encoder = new LZencode();
+        List<String> testList = new ArrayList<>();
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader reader= new BufferedReader(isr);
+        try {
+            while (reader.readLine() != null) {
+                System.out.println(reader.readLine());
+                testList.add(reader.readLine());
+
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        String testarray[] = testList.toArray(new String[testList.size()]);
+        //System.out.println(testList.get(0));
         enterdata(testarray);
 
     }
 
     public static void enterdata(String[] testarray) {
 
+
         for (int i = 0; i < testarray.length; i++) {
+
             String[] parts = testarray[i].split(",", 2);
             String phraseword = parts[0];
             int phrasewordNum = Integer.parseInt(phraseword);
